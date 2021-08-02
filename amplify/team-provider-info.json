@@ -1,0 +1,32 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-spotifymobile-dev-221121-authRole",
+      "UnauthRoleArn": "arn:aws:iam::783532829367:role/amplify-spotifymobile-dev-221121-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::783532829367:role/amplify-spotifymobile-dev-221121-authRole",
+      "Region": "ap-southeast-2",
+      "DeploymentBucketName": "amplify-spotifymobile-dev-221121-deployment",
+      "UnauthRoleName": "amplify-spotifymobile-dev-221121-unauthRole",
+      "StackName": "amplify-spotifymobile-dev-221121",
+      "StackId": "arn:aws:cloudformation:ap-southeast-2:783532829367:stack/amplify-spotifymobile-dev-221121/d7817130-e942-11eb-8e61-0a69f1fb75e4",
+      "AmplifyAppId": "d3tovx2hkaoj5n"
+    },
+    "categories": {
+      "auth": {
+        "spotifymobile": {
+          "userPoolId": "ap-southeast-2_dXSQIGtmZ",
+          "userPoolName": "spotifyamplify01fd93cd_userpool_01fd93cd-dev",
+          "webClientId": "m64132b84prgcj7g5670qk7s7",
+          "nativeClientId": "m64132b84prgcj7g5670qk7s7",
+          "identityPoolId": "ap-southeast-2:8ca8bfd3-9902-4c89-96ec-f7641766b9f4",
+          "identityPoolName": "spotifyamplify01fd93cd_identitypool_01fd93cd__dev",
+          "allowUnauthenticatedIdentities": false,
+          "authRoleArn": "arn:aws:iam::783532829367:role/amplify-spotifyamplify-dev-152740-authRole",
+          "authRoleName": "amplify-spotifyamplify-dev-152740-authRole",
+          "unauthRoleArn": "arn:aws:iam::783532829367:role/amplify-spotifyamplify-dev-152740-unauthRole",
+          "unauthRoleName": "amplify-spotifyamplify-dev-152740-unauthRole"
+        }
+      }
+    }
+  }
+}

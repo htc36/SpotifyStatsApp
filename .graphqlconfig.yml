@@ -1,0 +1,18 @@
+projects:
+  spotifyamplify-dev:
+    schemaPath: graphql/schema.json
+    includes:
+      - src/graphql/**/*.js
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: javascript
+        generatedFileName: ''
+        docsFilePath: src/graphql
+        region: ap-southeast-2
+        apiId: geiebiigczc55i2edozipl7w6m
+        maxDepth: 2
+extensions:
+  amplify:
+    version: 3

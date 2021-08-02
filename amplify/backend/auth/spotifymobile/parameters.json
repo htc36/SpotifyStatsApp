@@ -1,0 +1,6 @@
+{
+  "authSelections": "identityPoolAndUserPool",
+  "resourceName": "spotifymobile",
+  "serviceType": "imported",
+  "region": "ap-southeast-2"
+}
