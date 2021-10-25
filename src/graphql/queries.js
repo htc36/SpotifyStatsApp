@@ -22,12 +22,11 @@ export const listEvents = /* GraphQL */ `
     }
   }
 `;
-export const listTracks = /* GraphQL */ `
-  query ListTracks {
-    listTracks {
+export const getTracks = /* GraphQL */ `
+  query GetTracks {
+    getTracks {
       listenCount
-      trackId
-      name
+      id
     }
   }
 `;
@@ -40,11 +39,11 @@ export const listTopAlbums = /* GraphQL */ `
     }
   }
 `;
-export const listTopArtists = /* GraphQL */ `
-  query ListTopArtists {
-    listTopArtists {
+export const getArtists = /* GraphQL */ `
+  query GetArtists {
+    getArtists {
       listenCount
-      artistId
+      id
     }
   }
 `;

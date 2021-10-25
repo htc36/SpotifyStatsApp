@@ -1,10 +1,13 @@
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import React, { useContext } from 'react';
 import TracksScreen from './Tracks';
+import Tracks from '../screens/Tracks';
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import UserContext from '../context/UserContext';
 import Token from './Token';
+import Artists from '../screens/Artists';
+import ComboBox from './ComboBox';
 const Tab = createBottomTabNavigator();
 const MyTheme = {
   ...DefaultTheme,
@@ -39,9 +42,9 @@ const Navigation = () => {
           inactiveTintColor: 'white',
         }}
       >
-        <Tab.Screen name='Tracks' component={TracksScreen} style={{ backgroundColor: 'black' }} />
-        <Tab.Screen name='Albums' component={TracksScreen} />
-        <Tab.Screen name='Artists' component={TracksScreen} />
+        <Tab.Screen name='Tracks' component={Tracks} style={{ backgroundColor: 'black' }} />
+        <Tab.Screen name='Artists' component={Artists} />
+        <Tab.Screen name='Albums' component={ComboBox} />
       </Tab.Navigator>
     </NavigationContainer>
   );

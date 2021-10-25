@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TextInput, ImageBackground, ScrollView } from 'react-native';
+import { FlatList, View, Text, StyleSheet, TextInput, ImageBackground, ScrollView } from 'react-native';
 
 import { API, graphqlOperation } from 'aws-amplify';
-import { listTracks } from '..//graphql/queries';
+import { getTracks, getArtists } from '..//graphql/queries';
 import UserContext from '../context/UserContext';
 import { Card, Title, Avatar, Button } from 'react-native-paper';
 import { getApiObject } from '../api/spotifyApi';
@@ -10,25 +10,25 @@ import { authorize } from 'react-native-app-auth';
 import * as AuthSession from 'expo-auth-session';
 
 // react-native-app-auth
-const Tracks = () => {
-  const [tracks, setTracks] = useState([]);
-  const [trackCounts, setTrackCounts] = useState({});
+const Tracks = ({ metric, type }) => {
+  const [metrics, setMetrics] = useState([]);
+  const [trackCounts, setMetricCounts] = useState({});
   const { data } = useContext(UserContext);
 
   useEffect(() => {
-    fetchTodos();
+    fetchMetric(metric, type);
   }, []);
 
-  async function fetchTodos() {
+  async function fetchMetric(metric, type) {
     try {
-      const tracks = await API.graphql(graphqlOperation(listTracks));
+      let query = metric == 'getTracks' ? getTracks : getArtists;
+      const result = await API.graphql(graphqlOperation(query));
       let spotifyApi = getApiObject();
-      console.log(tracks);
-      let tracksObject = tracks.data.listTracks.reduce((obj, item) => ((obj[item.trackId] = item.listenCount), obj), {});
-      setTrackCounts(tracksObject);
-      let trackIdString = Object.keys(tracksObject);
-      let response = await spotifyApi.getTracks(trackIdString);
-      setTracks(response.tracks);
+      let metricObject = result.data[metric].reduce((obj, item) => ((obj[item.id] = item.listenCount), obj), {});
+      setMetricCounts(metricObject);
+      let trackIdString = Object.keys(metricObject);
+      let response = await spotifyApi[metric](trackIdString);
+      setMetrics(response[type]);
     } catch (err) {
       console.log(err);
       console.log('error fetching todos');
@@ -38,16 +38,25 @@ const Tracks = () => {
   return (
     <ScrollView style={{}}>
       <View style={styles.container}>
-        {tracks.map((todo, index) => (
-          <View key={index} style={styles.card}>
-            <ImageBackground source={{ uri: todo.album.images[0].url }} style={{ height: 170, width: '100%' }} imageStyle={{ borderRadius: 6 }}>
-              <View style={{ flex: 1, justifyContent: 'space-between' }}>
-                <Text style={styles.title}>#{trackCounts[todo.id]}</Text>
-                <Text style={styles.title}>{todo.name}</Text>
-              </View>
-            </ImageBackground>
-          </View>
-        ))}
+        {/* {metrics.map((metric, index) => ( */}
+        <FlatList
+          data={metric}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ metric }) => (
+            <View style={styles.card}>
+              <ImageBackground
+                source={{ uri: type == 'artists' ? metric?.images[0].url : metric.album.images[0].url }}
+                style={{ height: 170, width: '100%' }}
+                imageStyle={{ borderRadius: 6 }}
+              >
+                <View style={{ flex: 1, justifyContent: 'space-between' }}>
+                  <Text style={styles.title}>#{trackCounts[metric.id]}</Text>
+                  <Text style={styles.title}>{metric.name}</Text>
+                </View>
+              </ImageBackground>
+            </View>
+          )}
+        />
       </View>
     </ScrollView>
   );
@@ -66,8 +75,8 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 10,
   },
-  container: { flexDirection: 'row', flexWrap: 'wrap', width: '100%', justifyContent: 'space-evenly', flex: 1 },
-  card: { display: 'flex', flexDirection: 'row', justifyContent: 'space-around', fontWeight: 'bold', width: '45%' },
+  container: { marginTop: 10, flexDirection: 'row', flexWrap: 'wrap', width: '100%', justifyContent: 'space-evenly', flex: 1 },
+  card: { display: 'flex', marginBottom: 20, flexDirection: 'row', justifyContent: 'space-around', fontWeight: 'bold', width: '45%' },
   input: { height: 50, backgroundColor: '#ddd', marginBottom: 10, padding: 8 },
   todoName: { fontSize: 18 },
 });
